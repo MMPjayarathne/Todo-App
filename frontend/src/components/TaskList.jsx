@@ -10,11 +10,16 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Delete, CheckCircle, Edit } from "@mui/icons-material";
+import CustomSnackbar from "./CustomSnackbar";
+
 
 const TaskList = ({onEdit}) => {
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width:768px)");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   const fetchTasks = async () => {
     try {
@@ -34,8 +39,14 @@ const TaskList = ({onEdit}) => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/tasks/${id}`);
+      setSnackbarMessage('Task deleted successfully!');
+      setSnackbarSeverity('success');
       fetchTasks();
+      setOpenSnackbar(true);
     } catch (error) {
+      setSnackbarMessage('Error deleting task!');
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
       console.error("Error deleting task:", error);
     }
   };
@@ -43,11 +54,22 @@ const TaskList = ({onEdit}) => {
   const handleDone = async (id) => {
     try {
       await axios.put(`http://localhost:8080/api/tasks/${id}/done`);
+      setSnackbarMessage('Task updated successfully!');
+      setSnackbarSeverity('success');
       fetchTasks();
+      setOpenSnackbar(true);
     } catch (error) {
+      setSnackbarMessage('Error updating task!');
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
       console.error("Error editing task:", error);
     }
   };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
 
   const formatDateTime = (date) => {
     const newDate = new Date(date);
@@ -131,7 +153,16 @@ const TaskList = ({onEdit}) => {
           </CardContent>
         </Card>
       ))}
+
+    <CustomSnackbar
+        open={openSnackbar}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={handleCloseSnackbar}
+      />
     </Box>
+
+    
   );
 }  
 
