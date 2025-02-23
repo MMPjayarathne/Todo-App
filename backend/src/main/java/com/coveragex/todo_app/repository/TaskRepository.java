@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findTop5ByCompletedFalseOrderByIdDesc();
+    List<Task> findTop5ByCompletedFalseOrderByIdDesc(); //this will only return the top five (oldest) records
 }

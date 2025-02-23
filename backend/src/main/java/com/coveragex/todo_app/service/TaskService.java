@@ -30,7 +30,23 @@ public class TaskService {
         });
     }
 
+    public boolean isAvailable(Long id){
+        return taskRepository.findById(id).isPresent();
+    }
+
     public Optional<Task> getTaskById(Long id){
         return taskRepository.findById(id);
+    }
+
+    public void deleteTaskById(Long id){
+        taskRepository.deleteById(id);
+    }
+
+    public void updateTask(Long id, Task newTask){
+        taskRepository.findById(id).ifPresent(task -> {
+            task.setTitle(newTask.getTitle());
+            task.setDescription(newTask.getDescription());
+            taskRepository.save(task);
+        });
     }
 }
