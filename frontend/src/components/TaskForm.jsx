@@ -110,27 +110,17 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
           onChange={(e) => setDescription(e.target.value)}
           error={!!errors.description}
           helperText={errors.description}
-          sx={{ fontSize: isMobile ? "0.65rem": "0.875rem" }} // Adjust font size for text field based on screen size
+          sx={{ fontSize: isMobile ? "0.65rem": "0.875rem" }} 
         />
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          {!selectedTask ? (
             <Button 
               variant="outlined" 
               sx={{ borderRadius: 2, fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile? "4px 8px" : "6px 12px", }} 
-              onClick={clearForm}
-            >
-              Clear
-            </Button>
-          ) : (
-            <Button 
-              variant="outlined" 
-              sx={{ borderRadius: 2, fontSize: isMobile ? '1rem' : '1.2rem', fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile? "4px 8px" : "6px 12px", }} 
               onClick={!isMobile ? clearForm  : handleCloseDialog}
             >
-              Cancel
+              {isMobile? "Cancle" : "Clear"}
             </Button>
-          )}
           <Button
             variant="contained"
             sx={{ backgroundColor: '#1976d2', color: '#fff', borderRadius: 2, fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile? "4px 8px" : "6px 12px", }}
@@ -142,7 +132,6 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
         </Box>
       </Box>
 
-      {/* Use CustomSnackbar component */}
       <CustomSnackbar
         open={openSnackbar}
         message={snackbarMessage}
