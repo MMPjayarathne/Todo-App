@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { Delete, CheckCircle, Edit } from "@mui/icons-material";
 import CustomSnackbar from "./CustomSnackbar";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 
 const TaskList = ({onEdit}) => {
@@ -20,6 +21,9 @@ const TaskList = ({onEdit}) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [openDialog, setOpenDialog] = useState(false); 
+  const [taskToDelete, setTaskToDelete] = useState(null); 
+  
 
   const fetchTasks = async () => {
     try {
@@ -70,6 +74,22 @@ const TaskList = ({onEdit}) => {
     setOpenSnackbar(false);
   };
 
+  const handleOpenDialog = (taskId) => {
+    setTaskToDelete(taskId);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setTaskToDelete(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (taskToDelete) {
+      handleDelete(taskToDelete);
+    }
+    handleCloseDialog();
+  };
 
   const formatDateTime = (date) => {
     const newDate = new Date(date);
@@ -145,7 +165,7 @@ const TaskList = ({onEdit}) => {
                 padding: isMobile? "4px 8px" : "6px 12px",
                 minWidth: "80px"
                 }}
-                onClick={() => handleDelete(task.id)}
+                onClick={() => handleOpenDialog(task.id)}
               >
                 <Delete /> Delete
               </Button>
@@ -159,6 +179,13 @@ const TaskList = ({onEdit}) => {
         message={snackbarMessage}
         severity={snackbarSeverity}
         onClose={handleCloseSnackbar}
+      />
+
+      <ConfirmationDialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirmDelete}
+        message="Are you sure you want to delete this task?"
       />
     </Box>
 
