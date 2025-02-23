@@ -1,9 +1,10 @@
 import './App.css';
-import { Box, Dialog, Fab, useMediaQuery } from "@mui/material";
+import { Box, Dialog, Fab, useMediaQuery, DialogTitle, IconButton } from "@mui/material";
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
+
 
 const App = () => {
   const [reload, setReload] = useState(false);
@@ -47,7 +48,7 @@ const App = () => {
       }}
     >
      
-      {!isMobile && <TaskForm onTaskAdded={refreshTasks} selectedTask={selectedTask} clearSelectedTask={clearSelectedTask}  />}
+      {!isMobile && <TaskForm onTaskAdded={refreshTasks} selectedTask={selectedTask}  clearSelectedTask={clearSelectedTask}  />}
 
       <TaskList key={reload} onEdit={handleEdit} />
 
@@ -65,10 +66,16 @@ const App = () => {
           <AddIcon />
         </Fab>
       )}
+      
       {isMobile && (
-      <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="sm">
-        <TaskForm onTaskAdded={() => { refreshTasks(); handleCloseDialog(); }} selectedTask={selectedTask} clearSelectedTask={clearSelectedTask}  />
-      </Dialog>
+        <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="sm">  
+          <TaskForm 
+            onTaskAdded={() => { refreshTasks(); handleCloseDialog(); }} 
+            handleCloseDialog={handleCloseDialog} 
+            selectedTask={selectedTask} 
+            clearSelectedTask={clearSelectedTask}  
+          />
+        </Dialog>
       )}
     </Box>
   );
