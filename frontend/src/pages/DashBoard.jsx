@@ -54,6 +54,7 @@ const DashBoard = () => {
       {isMobile && (
         <Fab 
           color="primary" 
+          name="addIcon"
           aria-label="add" 
           sx={{ 
             position: "fixed", 

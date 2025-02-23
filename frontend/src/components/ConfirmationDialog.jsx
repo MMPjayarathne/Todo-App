@@ -29,6 +29,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, message }) => {
         </Button>
         <Button
           variant="contained"
+          name="confirm"
           color="error"
           onClick={onConfirm}
           sx={{
@@ -39,7 +40,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, message }) => {
             '&:hover': { backgroundColor: '#d32f2f' }
           }}
         >
-          Delete
+          Confirm
         </Button>
       </DialogActions>
     </Dialog>

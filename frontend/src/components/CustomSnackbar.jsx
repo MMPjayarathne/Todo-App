@@ -17,6 +17,9 @@ const CustomSnackbar = ({ open, message, severity, onClose }) => {
       onClose={onClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       TransitionComponent={(props) => <Slide {...props} direction="down" />}
+      sx={{
+        zIndex: (theme) => theme.zIndex.snackbar + 1,
+      }}
     >
       <Alert
         onClose={onClose}

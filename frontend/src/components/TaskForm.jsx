@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { TextField, Button, Paper, Typography, Box, useMediaQuery, IconButton } from '@mui/material';
-import axios from 'axios';
+import { TextField, Button, Paper, Typography, Box, useMediaQuery } from '@mui/material';
 import CustomSnackbar from './CustomSnackbar';
-import CloseIcon from '@mui/icons-material/Close'; 
+import { addTask, updateTask } from '../api/TaskApi';
 
 const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDialog }) => {
   const [title, setTitle] = useState('');
@@ -43,11 +42,11 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
 
     try {
       if (selectedTask) {
-        await axios.put(`http://localhost:8080/api/tasks/${selectedTask.id}`, { title, description });
+        await updateTask(selectedTask.id, { title, description });
         setSnackbarMessage('Task updated successfully!');
         setSnackbarSeverity('success');
       } else {
-        await axios.post('http://localhost:8080/api/tasks', { title, description });
+        await addTask({ title, description });
         setSnackbarMessage('Task added successfully!');
         setSnackbarSeverity('success');
       }
@@ -56,10 +55,19 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
       clearSelectedTask();
       clearForm();
     } catch (error) {
-      setSnackbarMessage('Error adding or updating task!');
+      console.error('Error:', error);
+
+      
+      if (error.response) {
+        setSnackbarMessage(error.response.data.message || 'An error occurred. Please try again.');
+      } else if (error.request) {
+        setSnackbarMessage('Network error. Please check your connection.');
+      } else {
+        setSnackbarMessage('An unexpected error occurred. Please try again.');
+      }
+
       setSnackbarSeverity('error');
       setOpenSnackbar(true);
-      console.error('Error adding task:', error);
     }
   };
 
@@ -83,7 +91,7 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
           fontWeight: 'bold', 
           color: '#333', 
           textAlign: 'center',
-          fontSize: isMobile ? '1.3rem' : '1.6rem' // Adjust font size based on screen size
+          fontSize: isMobile ? '1.3rem' : '1.6rem' 
         }}
       >
         {selectedTask ? 'Edit Task' : 'Add a New Task'}
@@ -92,6 +100,7 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField
           label="Title"
+          name="title"
           variant="outlined"
           fullWidth
           value={title}
@@ -102,6 +111,7 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
         />
         <TextField
           label="Description"
+          name="description"
           variant="outlined"
           multiline
           rows={3}
@@ -116,14 +126,14 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button 
               variant="outlined" 
-              sx={{ borderRadius: 2, fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile? "4px 8px" : "6px 12px", }} 
-              onClick={!isMobile ? clearForm  : handleCloseDialog}
+              sx={{ borderRadius: 2, fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile ? "4px 8px" : "6px 12px" }} 
+              onClick={!isMobile ? clearForm : handleCloseDialog}
             >
-              {isMobile? "Cancle" : "Clear"}
+              {isMobile ? "Cancel" : "Clear"}
             </Button>
           <Button
             variant="contained"
-            sx={{ backgroundColor: '#1976d2', color: '#fff', borderRadius: 2, fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile? "4px 8px" : "6px 12px", }}
+            sx={{ backgroundColor: '#1976d2', color: '#fff', borderRadius: 2, fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile ? "4px 8px" : "6px 12px" }}
             type="submit"
             disabled={!title.trim() || !description.trim()}
           >
