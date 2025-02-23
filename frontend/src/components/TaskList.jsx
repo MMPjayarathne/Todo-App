@@ -1,16 +1,27 @@
 import { useEffect, useState } from "react";
-import {Typography, Box, Card, CardContent, CardActions, IconButton } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  IconButton,
+  Button,
+  useMediaQuery,
+} from "@mui/material";
 import axios from "axios";
-import { Delete, CheckCircle } from "@mui/icons-material";
+import { Delete, CheckCircle, Edit } from "@mui/icons-material";
 
-
-const TaskList = () => {
+const TaskList = ({onEdit}) => {
   const [tasks, setTasks] = useState([]);
+  const [open, setOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   const fetchTasks = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/tasks");
-      setTasks(response.data);
+      console.log(response.data);
+      setTasks(response.data); //No need to filterout top 5 task, backend is handling it, alternatively we could get all the tasks and use pagination.
+      
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -20,7 +31,7 @@ const TaskList = () => {
     fetchTasks();
   }, []);
 
-  const handleDone = async (id) => {
+  const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/tasks/${id}`);
       fetchTasks();
@@ -29,26 +40,99 @@ const TaskList = () => {
     }
   };
 
+  const handleDone = async (id) => {
+    try {
+      await axios.put(`http://localhost:8080/api/tasks/${id}/done`);
+      fetchTasks();
+    } catch (error) {
+      console.error("Error editing task:", error);
+    }
+  };
+
+  const formatDateTime = (date) => {
+    const newDate = new Date(date);
+    const formattedDate = newDate.toLocaleDateString();
+    const formattedTime = newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true });
+  
+    return (
+      <>
+        {formattedDate} <br /> {formattedTime}
+      </>
+    );
+  };
+  
   return (
-    <Box sx={{ width: "50%", display: "flex", flexDirection: "column", gap: 2 }}>
+    <Box sx={{ width: isMobile ? "100%":"50%", display: "flex", flexDirection: "column", gap: 2 }}>
       {tasks.map((task) => (
-        <Card key={task.id} sx={{ backgroundColor: "#fff", borderRadius: 3, boxShadow: 3 }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333" }}>{task.title}</Typography>
-            <Typography variant="body2" color="text.secondary">{task.description}</Typography>
+        <Card
+          key={task.id}
+          sx={{
+            backgroundColor: "#fff",
+            borderRadius: 3,
+            boxShadow: 3,
+            padding: 2,
+          }}
+        >
+          <CardContent sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
+              <Typography  variant= {isMobile ? "h6" : "h5"} sx={{ fontWeight: "bold", color: "#333", textAlign: "center" }}>
+                {task.title}
+              </Typography>
+            </Box>
+            <IconButton sx={{ color: "#1976d2" }} onClick={() => onEdit(task)}>
+              <Edit fontSize="small"/>
+            </IconButton>
           </CardContent>
-          <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <IconButton onClick={() => handleDone(task.id)} sx={{ color: "#1976d2" }}>
-              <CheckCircle />
-            </IconButton>
-            <IconButton onClick={() => handleDone(task.id)} sx={{ color: "red" }}>
-              <Delete />
-            </IconButton>
-          </CardActions>
+  
+          <CardContent>
+            <Typography color="text.secondary"  variant={isMobile ? "caption" : "body2"}>
+              {task.description}
+            </Typography>
+          </CardContent>
+  
+          <CardContent sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Typography variant={isMobile ? "caption" : "body2"} color="text.secondary">
+              {formatDateTime(task.updatedAt)}
+            </Typography>
+            <Box sx={{ display: "flex", gap: 1,flexDirection: { xs: "column", sm: "row" } }}>
+              <Button 
+                variant="contained"
+                color="success"
+                sx={{ 
+                  borderRadius: 2, 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 1,
+                  fontSize: isMobile ? "0.65rem": "0.875rem",
+                  padding: isMobile? "4px 8px" : "6px 12px",
+                  minWidth: "80px"
+                }}
+                onClick={() => handleDone(task.id)}
+              >
+                <CheckCircle /> Done
+              </Button>
+              <Button 
+                variant="contained"
+                color="error"
+                sx={{ 
+                borderRadius: 2, 
+                display: "flex", 
+                alignItems: "center", 
+                gap: 1,
+                fontSize: isMobile ? "0.65rem": "0.875rem",
+                padding: isMobile? "4px 8px" : "6px 12px",
+                minWidth: "80px"
+                }}
+                onClick={() => handleDelete(task.id)}
+              >
+                <Delete /> Delete
+              </Button>
+            </Box>
+          </CardContent>
         </Card>
       ))}
     </Box>
   );
-};
+}  
 
 export default TaskList;
