@@ -33,6 +33,8 @@ cd todo-app
 
 ### 2 Build & Run with Docker
 
+- Check docker-compose.yml and other 2 DockerFiles in frontend and backend to ensure the confiurations are aligned with your envinronment.
+
 ```bash
 docker-compose up --build -d
 ```
@@ -103,6 +105,14 @@ POSTGRES_DB: todo_db
 ```
 
 ---
+
+## E2E testing 
+
+- Frontend : Used Cypress
+```bash
+ npx cypress open
+```
+- Backend : Used RestAssured
 
 ## Troubleshooting
 
