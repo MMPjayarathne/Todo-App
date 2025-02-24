@@ -104,6 +104,14 @@ POSTGRES_DB: todo_db
 
 ---
 
+## E2E testing 
+
+- Frontend : Used Cypress
+```bash
+ npx cypress open
+```
+- Backend : Used RestAssured
+
 ## Troubleshooting
 
 **If Docker build fails**\
