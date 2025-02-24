@@ -33,7 +33,7 @@ cd todo-app
 
 ### 2 Build & Run with Docker
 
-- Check docker-compose.yml and other 2 DockerFiles in frontend and backend to ensure the confiurations are aligned with your envinronment.
+- Check docker-compose.yml and other 2 Dockerfiles in frontend and backend to ensure the confiurations are aligned with your envinronment.
 
 ```bash
 docker-compose up --build -d
@@ -104,6 +104,19 @@ POSTGRES_PASSWORD: YourPassword
 POSTGRES_DB: todo_db
 ```
 
+---
+## Unit testing 
+
+Simply run
+
+- Frontend : 
+```bash
+ npm test
+```
+- Backend 
+```bash
+ mvn clean test
+```
 ---
 
 ## E2E testing 
