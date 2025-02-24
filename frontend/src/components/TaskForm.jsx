@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Paper, Typography, Box, useMediaQuery } from '@mui/material';
 import CustomSnackbar from './CustomSnackbar';
 import { addTask, updateTask } from '../api/TaskApi';
+
 
 const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDialog }) => {
   const [title, setTitle] = useState('');
@@ -129,7 +130,7 @@ const TaskForm = ({ onTaskAdded, selectedTask, clearSelectedTask, handleCloseDia
               sx={{ borderRadius: 2, fontSize: isMobile ? "0.65rem": "0.875rem", padding: isMobile ? "4px 8px" : "6px 12px" }} 
               onClick={!isMobile ? clearForm : handleCloseDialog}
             >
-              {isMobile ? "Cancel" : "Clear"}
+              Cancel
             </Button>
           <Button
             variant="contained"
