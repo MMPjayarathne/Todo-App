@@ -24,7 +24,6 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<?> getTasks() {
-        log.info("A request to get tasks.");
         Map <String, Object> response = new HashMap<>();
         try {
             List<Task> res = taskService.getLatestTasks();
@@ -39,7 +38,6 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<?> createTask(@RequestBody Task task) {
-        log.info("A request to store a task.");
         Map <String, Object> response = new HashMap<>();
         if(task.getTitle() == null || task.getTitle().isEmpty()){
             response.put("Error","The title is missing.");
@@ -64,7 +62,6 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getTaskById(@PathVariable Long id){
-        log.info("A request to  get a task.");
         Map <String, Object> response = new HashMap<>();
         if(id == null){
             response.put("Error","An id is required to get a task.");
@@ -87,7 +84,6 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTaskById(@PathVariable Long id){
-        log.info("A request to  delete a task.");
         Map <String, Object> response = new HashMap<>();
         if(id == null){
             response.put("Error","An id is required to delete a task.");
@@ -112,7 +108,6 @@ public class TaskController {
 
     @PutMapping("/{id}/done")
     public ResponseEntity<?> markAsDone(@PathVariable Long id) {
-        log.info("A request to  update the task as done.");
         Map <String, Object> response = new HashMap<>();
         if(id == null){
             response.put("Error","An id is required to update the task.");
@@ -132,7 +127,6 @@ public class TaskController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task task) {
-        log.info("A request to  update the task.");
         Map <String, Object> response = new HashMap<>();
         if(id == null){
             response.put("Error","An id is required to update the task.");
