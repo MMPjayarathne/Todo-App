@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@ActiveProfiles("test")  // Use a separate profile for testing if want
+@ActiveProfiles("test")  // Use a separate profile for testing if want
 public class TaskControllerE2ETest {
 
     @LocalServerPort
