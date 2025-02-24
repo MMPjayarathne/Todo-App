@@ -51,7 +51,7 @@ describe('TaskList Component', () => {
   it('should handle task deletion', () => {
     cy.get('button').contains('Delete').first().click();
     
-    cy.contains('Are you sure you want to delete this task?').should('be.visible');
+    cy.contains('Are you sure you want to delete').should('be.visible');
     
     cy.get('button[name="confirm"]').click(); 
     

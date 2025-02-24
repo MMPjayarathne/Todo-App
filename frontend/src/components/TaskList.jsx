@@ -210,7 +210,7 @@ const TaskList = ({ onEdit }) => {
         ))}
 
       <CustomSnackbar open={openSnackbar} message={snackbarMessage} severity={snackbarSeverity} onClose={handleCloseSnackbar} />
-      <ConfirmationDialog open={openDialog} onClose={handleCloseDialog} onConfirm={handleConfirmDelete} message="Are you sure you want to delete this task?" />
+      <ConfirmationDialog open={openDialog} onClose={handleCloseDialog} onConfirm={handleConfirmDelete} message={`Are you sure you want to delete the task ${taskToDelete}?`} />
     </Box>
   );
 };
