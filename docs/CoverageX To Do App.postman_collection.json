@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "e63a6e29-9e58-4ea1-ba8e-54f1cfa5a0dd",
+		"name": "CoverageX To Do App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34106007",
+		"_collection_link": "https://genius-8122.postman.co/workspace/Genius-Workspace~c8827cc3-46df-441c-a1f8-03e158f0732c/collection/34106007-e63a6e29-9e58-4ea1-ba8e-54f1cfa5a0dd?action=share&source=collection_link&creator=34106007"
+	},
+	"item": [
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Get Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Tasks",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Complete Project Report\",\r\n    \"description\": \"Finish writing the project report and submit it before the deadline\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a Task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Complete Project Report\",\r\n    \"description\": \"Finish writing the project report and submit it before the deadline, ASAP\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Done",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"completed\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks/8/done",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"8",
+								"done"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
